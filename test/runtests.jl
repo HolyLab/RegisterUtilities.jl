@@ -1,5 +1,10 @@
 using Test
+using Aqua
 using RegisterUtilities
+
+@testset "Aqua" begin
+    Aqua.test_all(RegisterUtilities)
+end
 
 @testset "Counter test" begin
     for empty_gridsize in ((), (0,), (1, 0), (1, -1), (1, 0, 1))
