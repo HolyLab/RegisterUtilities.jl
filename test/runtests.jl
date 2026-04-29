@@ -1,6 +1,8 @@
 using Test
 using Aqua
 using ExplicitImports
+using LinearAlgebra: I
+using RegisterCore: RegisterCore
 using RegisterUtilities
 
 @testset "Aqua" begin
@@ -46,4 +48,38 @@ end
     @test block_center(5) == (3,)
     @test block_center(4, 6) == (3, 4)
     @test block_center(8) == (5,)
+end
+
+@testset "quadratic" begin
+    Q = Matrix(1.0I, 2, 2)
+    m, n = 5, 7
+    A = quadratic(m, n, (0, 0), Q)
+    @test size(A) == (m, n)
+    c = block_center(m, n)
+    @test A[c...] == 0.0
+    @test all(>=(0), A)
+    @inferred quadratic(m, n, (0, 0), Q)
+
+    # shifting the center moves the zero
+    A2 = quadratic(m, n, (1, 0), Q)
+    @test A2[c[1] + 1, c[2]] == 0.0
+
+    # matrix-denom variant returns a MismatchArray of the right size
+    denom = ones(m, n)
+    result = quadratic(denom, (0, 0), Q)
+    @test result isa RegisterCore.MismatchArray
+    @test size(result) == (m, n)
+end
+
+@testset "tighten" begin
+    # heterogeneous Any-array gets promoted
+    A = Any[1, 2.0, 3f0]
+    result = tighten(A)
+    @test eltype(result) == Float64
+    @test result ≈ [1.0, 2.0, 3.0]
+
+    # already-concrete array is unchanged in value and type
+    B = [1, 2, 3]
+    @test tighten(B) == B
+    @test eltype(tighten(B)) == Int
 end
