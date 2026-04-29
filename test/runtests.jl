@@ -1,9 +1,14 @@
 using Test
 using Aqua
+using ExplicitImports
 using RegisterUtilities
 
 @testset "Aqua" begin
     Aqua.test_all(RegisterUtilities)
+end
+
+@testset "ExplicitImports" begin
+    test_explicit_imports(RegisterUtilities)
 end
 
 @testset "Counter test" begin

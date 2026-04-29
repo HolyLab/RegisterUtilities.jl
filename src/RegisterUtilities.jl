@@ -34,7 +34,8 @@ end
 
 # Below functions are from RegisterTestUtilities
 
-using RegisterCore, LinearAlgebra
+using LinearAlgebra: LinearAlgebra, dot
+using RegisterCore: RegisterCore, MismatchArray
 
 export quadratic, block_center, tighten
 
