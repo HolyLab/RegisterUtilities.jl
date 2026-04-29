@@ -24,4 +24,16 @@ using RegisterUtilities
         end
         @test cnt == index_vec
     end
+    # AbstractVector constructor
+    cnt32 = [c for c in Counter(Int32[2, 3])]
+    @test cnt32 == [[1,1],[2,1],[1,2],[2,2],[1,3],[2,3]]
+end
+
+@testset "block_center" begin
+    @test block_center(1) == (1,)
+    @test block_center(2) == (2,)
+    @test block_center(4) == (3,)
+    @test block_center(5) == (3,)
+    @test block_center(4, 6) == (3, 4)
+    @test block_center(8) == (5,)
 end
