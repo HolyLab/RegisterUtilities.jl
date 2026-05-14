@@ -3,9 +3,7 @@
     "allow": [
       "Bash(julia --project=. -e 'using Pkg; Pkg.test\\(\\)')"
     ]
-  }
-}
-{
+  },
   "hooks": {
     "PostToolUse": [
       {
